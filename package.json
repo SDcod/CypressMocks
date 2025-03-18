@@ -1,0 +1,17 @@
+{
+  "name": "cypress-playground",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "QA_env": "cypress run --config-file config/qa_env.config.js --browser chrome",
+    "UAT_env": "cypress run --config-file config/uat_env.config.js --browser chrome"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cypress": "^14.1.0"
+  }
+}

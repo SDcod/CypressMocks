@@ -29,6 +29,8 @@ describe("validate table content", () => {
         .next("td")
         .then(($price) => {
           expect($price).to.have.text("$1200.00");
+          //   let text = $price.text();
+          //   expect(text).to.match(/^\$\d{1,3}(,\d{3})*(\.\d{2})?$/);
         });
     });
   });

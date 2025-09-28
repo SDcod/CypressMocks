@@ -6,13 +6,19 @@
 
 // ✅ How to disable Default Logging in Cypress //{log:false}
 
-// ✅ How to handle error status code in Cypress //{failOnStatusCode: false}
+// ✅ How to handle error status code in Cypress API testing//{failOnStatusCode: false}
 
-// ✅ How to verify the tooltip in Cypress
+// ✅ How to verify the tooltip in Cypress // cy.get('#hoverTarget').trigger('mouseover');
 
 // ✅ How to perform Multi-Country/Language testing in Cypress
 
-// ✅ How to handle basic auth headers
+// ✅ How to handle basic auth headers //cy.visit('https://the-internet.herokuapp.com/basic_auth', {
+//   auth: {
+//     username: 'admin',
+//     password: 'admin'
+//   }
+// });
+// OR using cy.request headers:{Authorization : `Basic ${token...}`}
 
 // ✅ How to generate Dynamic Data with Faker Library in Cypress
 

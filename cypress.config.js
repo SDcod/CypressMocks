@@ -16,4 +16,5 @@ module.exports = defineConfig({
   },
   chromeWebSecurity: false,
   watchForFileChanges: false,
+  includeShadowDom: true,
 });

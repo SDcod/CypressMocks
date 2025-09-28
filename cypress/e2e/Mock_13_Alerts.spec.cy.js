@@ -27,12 +27,12 @@ describe("Alerts suite", () => {
 
     //handle alert using cy.window
     cy.window().then((win) => {
-      cy.stub(win, "alert").as("windowAlert");
-      cy.contains("button", "Click for JS Alert").click();
+      cy.stub(win, "alert").as("windowAlert"); //spy the alert event on window
+      cy.contains("button", "Click for JS Alert").click(); //do an action that triggers the alert
       cy.get("@windowAlert").should(
         "have.been.calledOnceWith",
         "I am a JS Alert"
-      );
+      ); //validate alert triggered with desired output
     });
     //   validate the result text
     cy.get("#result").should("have.text", "You successfully clicked an alert");

@@ -4,7 +4,7 @@ describe("mock weather api", () => {
 
     cy.intercept("https://openweathermap.org/data/2.5/find?*", {
       message: "accurate",
-      cod: "200",
+      statusCode: "200",
       count: 1,
       body: {
         list: [

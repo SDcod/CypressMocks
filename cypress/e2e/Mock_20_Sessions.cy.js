@@ -13,7 +13,7 @@
 // setupFn → A function where you define how to establish the session (e.g., login).
 
 // options → Extra configs like validate (to check if session is still valid).
-
+// updated by sd
 // 🔹 Example 1: Reusing Login Session
 describe("Using cy.session()", () => {
   beforeEach(() => {

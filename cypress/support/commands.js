@@ -27,3 +27,30 @@
 Cypress.on("uncaught:exception", (err, runnable) => {
   return false;
 });
+
+Cypress.Commands.add("hasuraGraphQL", ({ body }) => {
+  cy.window()
+    .its("localStorage")
+    .invoke("getItem", "auth0:access_token")
+    .then((token) => {
+      cy.wrap(token, { log: false }).should("not.be.undefined");
+      Cypress.env("graphQL_token", token);
+    });
+
+  return cy
+    .request({
+      method: "POST",
+      url: "https://hasura.io/learn/graphql",
+      headers: {
+        Authorization: `Bearer ${Cypress.env("graphQL_token")}`,
+        "Content-Type": "application/json",
+      },
+      body: body,
+    })
+    .then((res) => {
+      expect(res.status).to.equal(200);
+      expect(res.body.data).not.to.be.null;
+
+      return res.body.data;
+    });
+});

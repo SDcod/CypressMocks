@@ -13,6 +13,7 @@ module.exports = defineConfig({
       //   }
       // });
     },
+    defaultCommandTimeout: 120000,
   },
   chromeWebSecurity: false,
   watchForFileChanges: false,

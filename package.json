@@ -12,11 +12,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cypress": "^14.1.0"
+    "dotenv": "^17.2.3"
   },
   "devDependencies": {
     "@4tw/cypress-drag-drop": "^2.3.0",
     "@faker-js/faker": "^9.6.0",
+    "cypress": "^15.11.0",
     "eslint": "^9.39.2"
   }
 }

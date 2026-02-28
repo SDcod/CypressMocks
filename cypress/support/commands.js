@@ -34,23 +34,22 @@ Cypress.Commands.add("hasuraGraphQL", ({ body }) => {
     .invoke("getItem", "auth0:access_token")
     .then((token) => {
       cy.wrap(token, { log: false }).should("not.be.undefined");
-      Cypress.env("graphQL_token", token);
-    });
+      // use the token directly (don't write to Cypress.env(), which is deprecated)
+      return cy
+        .request({
+          method: "POST",
+          url: "https://hasura.io/learn/graphql",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: body,
+        })
+        .then((res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body.data).not.to.be.null;
 
-  return cy
-    .request({
-      method: "POST",
-      url: "https://hasura.io/learn/graphql",
-      headers: {
-        Authorization: `Bearer ${Cypress.env("graphQL_token")}`,
-        "Content-Type": "application/json",
-      },
-      body: body,
-    })
-    .then((res) => {
-      expect(res.status).to.equal(200);
-      expect(res.body.data).not.to.be.null;
-
-      return res.body.data;
+          return res.body.data;
+        });
     });
 });

@@ -1,8 +1,15 @@
-const GQL_TOKEN = "";
-const GQL_END_POINT = "";
-const username = "swaroopmdongare@gmail.com";
-const password = "Password@1234";
 describe("GraphQL Hasura Suite", function () {
+  let username;
+  let password;
+
+  before(() => {
+    cy.env(["CYPRESS_GQL_USERNAME", "CYPRESS_GQL_PASSWORD"]).then(
+      ({ CYPRESS_GQL_USERNAME, CYPRESS_GQL_PASSWORD }) => {
+        ((username = CYPRESS_GQL_USERNAME), (password = CYPRESS_GQL_PASSWORD));
+      },
+    );
+  });
+
   const getUserTodosQuery = `query getTodosByUser($userId: String!){
   users(where: {id: {_eq: $userId }}) {
     id
@@ -21,6 +28,7 @@ describe("GraphQL Hasura Suite", function () {
     variables: queryVariables,
   };
   beforeEach(function () {
+    console.log(username + " is the username");
     cy.visit("https://hasura.io/learn/graphql/graphiql");
     cy.get("#qsLoginBtn").should("be.visible").click();
     cy.get('[id="1-email"]').should("be.visible").type(username);

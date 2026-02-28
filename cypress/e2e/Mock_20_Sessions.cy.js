@@ -16,12 +16,23 @@
 // updated by sd
 // 🔹 Example 1: Reusing Login Session
 describe("Using cy.session()", () => {
+  let username;
+  let password;
+  before(() => {
+    cy.env(["validUser", "validPassword"]).then(
+      ({ validUser, validPassword }) => {
+        username = validUser;
+        password = validPassword;
+      },
+    );
+  });
+
   beforeEach(() => {
     cy.session("user-session", () => {
       // setupFn → how to create session
       cy.visit("/login");
-      cy.get("#email").type(Cypress.env("validUser"));
-      cy.get("#password").type(Cypress.env("validPassword"));
+      cy.get("#email").type(username);
+      cy.get("#password").type(password);
       cy.get("button[type='submit']").click();
 
       // confirm user is logged in
@@ -60,7 +71,7 @@ cy.session(
       cy.visit("/dashboard");
       cy.contains("Welcome back"); // ensures session is still valid
     },
-  }
+  },
 );
 
 // If validation fails, Cypress will re-run the setupFn (login again).

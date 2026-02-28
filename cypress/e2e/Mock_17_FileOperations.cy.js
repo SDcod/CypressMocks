@@ -71,11 +71,31 @@
 
 // Writes the content to a new file notes_copy.txt.
 
+const fs = require("fs");
+
+// fs.writeFile("cypress/fixtures/output.txt", "dummy text", (err) => {
+//   if (err) {
+//     console.log("error while writing file", err);
+//   }
+
+//   console.log("success writing file");
+// });
+
+// fs.readFile("cypress/fixtures/output.txt", "utf8", (err, data) => {
+//   if (err) console.log(err);
+
+//   console.log("content : " + data);
+// });
+
 // 🟡 Exercise 2 (Medium): Append Logs
 
 // Create a script that logs the current timestamp into logs.txt every time it runs.
 
 // If the file doesn’t exist, create it.
+// let timestamp = Date.now().toString();
+// fs.writeFile("cypress/fixtures/timestamp.now.txt", timestamp, (err) => {
+//   if (err) throw err;
+// });
 
 // 🔴 Exercise 3 (Advanced): Directory Operations
 
@@ -95,4 +115,52 @@
 
 // ✅ With these, you’ll cover all the usual fs module questions that come up in interviews.
 
-// Do you want me to walk you through solutions for the 3 exercises (read/write, append logs, backup .txt files) or would you like to try them yourself first and then I can review your code?
+// cypress/e2e/file_io.cy.js
+describe("Read and Write Files with Cypress", () => {
+  const filePath = "cypress/fixtures/testData.json";
+
+  it("writes and reads a JSON file safely", () => {
+    const data = { name: "ChatGPT", version: "1.0.0" };
+
+    // Write file
+    cy.writeFile(filePath, data).then(() => {
+      cy.log("✅ File written successfully");
+    });
+
+    // Read file with error handling
+    cy.readFile(filePath, { log: true })
+      .then((content) => {
+        expect(content).to.have.property("name", "ChatGPT");
+        cy.log("📖 File read successfully");
+      })
+      .catch((err) => {
+        cy.log(`❌ Error reading file: ${err.message}`);
+        throw err; // fail test
+      });
+  });
+});
+
+// cypress/e2e/fs_task.cy.js
+describe("File operations via Node fs tasks", () => {
+  const filePath = "tmp/testFile.txt";
+
+  it("writes and reads with Node fs", () => {
+    cy.task("writeToFile", {
+      filename: filePath,
+      content: "Hello Cypress!",
+    }).then((result) => {
+      expect(result.success).to.be.true;
+      cy.log(`✅ File written to ${result.path}`);
+    });
+
+    cy.task("readFromFile", filePath).then((result) => {
+      if (!result.success) {
+        throw new Error(`❌ File read failed: ${result.error}`);
+      }
+      expect(result.data).to.include("Cypress");
+      cy.log(`📖 File content: ${result.data}`);
+    });
+
+    cy.readFile("/path/to/file", "utf-8", { log: true });
+  });
+});
